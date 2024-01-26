@@ -1,0 +1,23 @@
+name: dynamic-matrix
+
+on: [ push, pull_request ]
+
+jobs:
+  set:
+    runs-on: ubuntu-20.04
+    outputs:
+      matrix: ${{steps.list_dirs.outputs.matrix}}
+    steps:
+      - uses: actions/checkout@v2
+      - id: list_dirs
+        run: echo 'matrix={1, 2, 3}' >> $GITHUB_OUTPUT
+
+  get:
+    runs-on: ubuntu-20.04
+    needs: set
+    strategy:
+      matrix:
+        subdir: ${{fromJson(needs.set.outputs.matrix)}}
+    steps:
+      - name: print
+        run: echo "MATRIX ${{ matrix.subdir }} "
