@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PM_URL: https://pm.community.intersystems.com/packages/-/all?allVersions=1
-      JQ_SCRIPT: reduce .[] as $item ([]; if $item.allVersions | length >= 65 then . + [$item.name] else . end)
+      JQ_SCRIPT: reduce .[] as $item ([]; if $item.allVersions | length >= 10 then . + [$item.name] else . end)
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
